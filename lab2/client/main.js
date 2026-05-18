@@ -6,23 +6,9 @@ import OSM from 'ol/source/OSM';
 import ImageLayer from 'ol/layer/Image';
 import ImageWMS from 'ol/source/ImageWMS';
 
-// Создаем базовую карту (OpenStreetMap)
-const map = new Map({
-  target: 'map',
-  layers: [
-    new TileLayer({
-      source: new OSM()
-    })
-  ],
-  view: new View({
-    center: [5593535.5, 7012288.5], // Координаты Самары в проекции Web Mercator
-    zoom: 16
-  })
-});
-
 // Функция для создания WMS слоя
 function createWMSLayer(layerName, visible = true) {
-  const layer = new ImageLayer({
+  return new ImageLayer({
     visible: visible,
     source: new ImageWMS({
       url: 'http://localhost:8080/geoserver/gis/wms',
@@ -36,18 +22,22 @@ function createWMSLayer(layerName, visible = true) {
       serverType: 'geoserver'
     })
   });
-  return layer;
 }
 
-// Создаем слои для наших данных
+const osmLayer = new TileLayer({ source: new OSM() });
 const buildingsLayer = createWMSLayer('buildings', true);
 const roadsLayer = createWMSLayer('roads', true);
 const poiLayer = createWMSLayer('poi', true);
 
-// Добавляем слои на карту
-map.addLayer(buildingsLayer);
-map.addLayer(roadsLayer);
-map.addLayer(poiLayer);
+// Создаем карту со всеми слоями сразу
+const map = new Map({
+  target: 'map',
+  layers: [osmLayer, buildingsLayer, roadsLayer, poiLayer],
+  view: new View({
+    center: [5591969, 7039499],
+    zoom: 17
+  })
+});
 
 // Добавляем управление видимостью слоев
 document.getElementById('buildingsToggle').addEventListener('change', (e) => {
