@@ -1,0 +1,38 @@
+{
+  "version": 8,
+  "name": "overture-buildings-choropleth",
+  "sources": {
+    "overture": {
+      "type": "geojson",
+      "data": "overture.geojson"
+    }
+  },
+  "layers": [
+    {
+      "id": "overture-buildings-fill",
+      "type": "fill",
+      "source": "overture",
+      "paint": {
+        "fill-color": [
+          "match",
+          ["get", "source_type"],
+          "my", "#2ecc71",
+          "osm", "#3498db",
+          "ml", "#e67e22",
+          "#999999"
+        ],
+        "fill-opacity": 0.6,
+        "fill-outline-color": "#222222"
+      }
+    },
+    {
+      "id": "overture-buildings-outline",
+      "type": "line",
+      "source": "overture",
+      "paint": {
+        "line-color": "#222222",
+        "line-width": 0.8
+      }
+    }
+  ]
+}
