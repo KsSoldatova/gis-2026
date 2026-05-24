@@ -9,6 +9,7 @@ SELECT *
 FROM ST_Read('../lab1/map.json')
 WHERE building IS NOT NULL;
 
+CREATE OR REPLACE TABLE links AS
 WITH raw_data AS (
     SELECT *
     FROM 'https://stac.overturemaps.org/2026-04-15.0/buildings/building/collection.json'
